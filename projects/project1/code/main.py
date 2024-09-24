@@ -15,10 +15,19 @@ def test_mean_squared_error_gd(y, tx, initial_w):
     print(w, expected_w)
 
 
+def test_least_squares(y, tx):
+    w, loss = least_squares(y, tx)
+
+    expected_w = np.array([0.218786, -0.053837])
+    expected_loss = 0.026942
+
+    print(w, expected_w)
+    print(loss, expected_loss)
+
 
 if __name__ == '__main__':
 
     #x_train, x_test, y_train, train_ids, test_ids = load_csv_data("C:\\Users\mathu\PycharmProjects\ML_course\projects\project1\data\dataset\dataset")
 
 
-    print(test_mean_squared_error_gd(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0])))
+    print(test_least_squares(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]])))
