@@ -26,6 +26,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     return mean_squared_error_gd_recursive(y, tx, initial_w, max_iters, gamma)
 
 def ridge_regression(y,tx,lambda_):
+
     N = tx.shape[0]
     D = tx.shape[1]
     gram_matrix = (tx.T @ tx + lambda_*2*N*np.identity(D))
