@@ -27,7 +27,7 @@ def test_least_squares(y, tx):
 
 if __name__ == '__main__':
 
-    #x_train, x_test, y_train, train_ids, test_ids = load_csv_data("C:\\Users\mathu\PycharmProjects\ML_course\projects\project1\data\dataset\dataset")
+    #x_train, x_test, y_train, train_ids, test_ids = load_csv_data("C:\\Users\mathu\PycharmProjects\ML_course\projects\project1\data\dataset")
 
 
     print(test_least_squares(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]])))
