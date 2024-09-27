@@ -3,6 +3,10 @@ import numpy as np
 from projects.project1.helpers import load_csv_data
 from projects.project1.code.implementations import *
 
+
+MAX_ITERS = 2
+GAMMA = 0.1
+
 def test_mean_squared_error_gd(y, tx, initial_w):
     w, loss = mean_squared_error_gd(
         y, tx, initial_w, 2, 0.1
@@ -45,10 +49,20 @@ def test_ridge_regression_lambda1(y, tx):
     print(w, expected_w)
     print(loss, expected_loss)
 
+def test_mean_squared_error_sgd( y, tx, initial_w):
+    # n=1 to avoid stochasticity
+    w, loss = mean_squared_error_sgd(
+        y[:1], tx[:1], initial_w, MAX_ITERS, GAMMA
+    )
 
+    expected_loss = 0.844595
+    expected_w = np.array([0.063058, 0.39208])
+
+    print(w, expected_w)
+    print(loss, expected_loss)
 
 if __name__ == '__main__':
 
     #x_train, x_test, y_train, train_ids, test_ids = load_csv_data("C:\\Users\mathu\PycharmProjects\ML_course\projects\project1\data\dataset")
 
-    print(test_ridge_regression_lambda1(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]])))
+    print(test_mean_squared_error_sgd(np.array([0.1, 0.3, 0.5]), np.array([[2.3, 3.2], [1.0, 0.1], [1.4, 2.3]]), np.array([0.5, 1.0])))
