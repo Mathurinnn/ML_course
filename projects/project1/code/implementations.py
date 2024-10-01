@@ -44,7 +44,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
     for i in range(max_iters):
         j = next(batch_iterator)
-        grad = -(1 / n) * (np.transpose(tx) @ (y - tx @ j))  # gradient of the loss function
+        grad = - 1 * (np.transpose(j) @ (y - j @ initial_w))  # gradient of the loss function
         initial_w = initial_w - gamma * grad
 
     return initial_w, (1 / (2 * n)) * np.sum(np.square(y - tx @ initial_w))
