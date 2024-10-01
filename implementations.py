@@ -1,35 +1,9 @@
 import numpy as np
 
-def least_squares(y, tx):
 
+def least_squares(y, tx):
     N = tx.shape[0]
     gram_matrix = tx.T @ tx
-    w = np.linalg.solve(gram_matrix, tx.T @ y)
-
-    error = y - (tx @ w)
-    loss = 1/(2*N)*error.dot(error)
-
-    return w, loss
-
-#Linear regression using gradient descent
-def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
-   
-    n = np.shape(y)[0]#size of the dataset
-
-    def mean_squared_error_gd_recursive(y, tx, w, max_iters, gamma):
-        if(max_iters == 0):
-            return (initial_w, (1/(2*n)) * np.sum(np.square(y - tx @ w)))
-        else:
-            grad = -(1/n) * (np.transpose(tx) @ (y - tx @ w))#gradient of the loss function
-            return mean_squared_error_gd(y, tx, w - gamma * grad, max_iters - 1, gamma)
-            
-    return mean_squared_error_gd_recursive(y, tx, initial_w, max_iters, gamma)
-
-def ridge_regression(y,tx,lambda_):
-
-    N = tx.shape[0]
-    D = tx.shape[1]
-    gram_matrix = (tx.T @ tx + lambda_*2*N*np.identity(D))
     w = np.linalg.solve(gram_matrix, tx.T @ y)
 
     error = y - (tx @ w)
@@ -37,17 +11,44 @@ def ridge_regression(y,tx,lambda_):
 
     return w, loss
 
-def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
+# Linear regression using gradient descent
+def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
+    n = np.shape(y)[0]  # size of the dataset
+
+    def mean_squared_error_gd_recursive(y, tx, w, max_iters, gamma):
+        if (max_iters == 0):
+            return (initial_w, (1 / (2 * n)) * np.sum(np.square(y - tx @ w)))
+        else:
+            grad = -(1 / n) * (np.transpose(tx) @ (y - tx @ w))  # gradient of the loss function
+            return mean_squared_error_gd(y, tx, w - gamma * grad, max_iters - 1, gamma)
+
+    return mean_squared_error_gd_recursive(y, tx, initial_w, max_iters, gamma)
+
+
+def ridge_regression(y, tx, lambda_):
+    N = tx.shape[0]
+    D = tx.shape[1]
+    gram_matrix = (tx.T @ tx + lambda_ * 2 * N * np.identity(D))
+    w = np.linalg.solve(gram_matrix, tx.T @ y)
+
+    error = y - (tx @ w)
+    loss = 1 / (2 * N) * error.dot(error)
+
+    return w, loss
+
+
+def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     n = np.shape(y)[0]
     batch_iterator = batch_iter(y, tx, 1)
 
-    for i in batch_iterator:
-        grad = -(1 / n) * (np.transpose(tx) @ (y - tx @ i))  # gradient of the loss function
+    for i in range(max_iters):
+        batch_y_x = next(batch_iterator)
+        grad = - 1 * (np.transpose(batch_y_x[1]) @ (
+                    batch_y_x[0] - (batch_y_x[1] @ initial_w)))  # gradient of the loss function
         initial_w = initial_w - gamma * grad
 
     return initial_w, (1 / (2 * n)) * np.sum(np.square(y - tx @ initial_w))
-
 
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
@@ -89,7 +90,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         data_size / batch_size
     )  # The maximum amount of non-overlapping batches that can be extracted from the data.
     remainder = (
-        data_size - max_batches * batch_size
+            data_size - max_batches * batch_size
     )  # Points that would be excluded if no overlap is allowed.
 
     if shuffle:
@@ -105,6 +106,6 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     for start in idxs:
         start_index = start  # The first data point of the batch
         end_index = (
-            start_index + batch_size
+                start_index + batch_size
         )  # The first data point of the following batch
         yield y[start_index:end_index], tx[start_index:end_index]
