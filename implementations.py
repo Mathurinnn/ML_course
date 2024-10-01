@@ -40,7 +40,8 @@ def ridge_regression(y, tx, lambda_):
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     n = np.shape(y)[0]
-    batch_iterator = batch_iter(y, tx, 1)
+    batch_iterator = batch_iter(y, tx, max_iters)
+
 
     for i in range(0, max_iters):
         batch_y_x = next(batch_iterator)
