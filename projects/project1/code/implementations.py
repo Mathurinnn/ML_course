@@ -48,6 +48,8 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
     return initial_w, (1 / (2 * n)) * np.sum(np.square(y - tx @ initial_w))
 
+
+
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
     Generate a minibatch iterator for a dataset.
