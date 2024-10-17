@@ -133,3 +133,10 @@ def compute_gradient(y, tx, w):
     print("grad : " + str(grad))
 
     return grad
+    
+def gradient_descent(y, tx, initial_w, max_iters, gamma):
+    for i in range(max_iters):
+        print("initial_w : " + str(initial_w))
+        initial_w = initial_w - gamma * compute_gradient(y, tx, initial_w)
+
+    return  initial_w, compute_loss(y, tx, initial_w)
