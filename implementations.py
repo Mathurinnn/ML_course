@@ -110,3 +110,26 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
                 start_index + batch_size
         )  # The first data point of the following batch
         yield y[start_index:end_index], tx[start_index:end_index]
+
+def compute_gradient(y, tx, w):
+    """Computes the gradient at w.
+
+    Args:
+        y: numpy array of shape=(N, )
+        tx: numpy array of shape=(N,2)
+        w: numpy array of shape=(2, ). The vector of model parameters.
+
+    Returns:
+        An numpy array of shape (2, ) (same shape as w), containing the gradient of the loss at w.
+    """
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # TODO: compute gradient vector
+    # ***************************************************
+    n = np.shape(y)[0]
+    print("n : " + str(n))
+    e = y - tx @ w
+    grad = -(1 / n) * (np.transpose(tx) @ e)
+    print("grad : " + str(grad))
+
+    return grad
