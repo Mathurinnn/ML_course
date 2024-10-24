@@ -5,12 +5,12 @@ from batch_iter import *
 
 def least_squares(y, tx):
 
-    N = tx.shape[0]
+    n = tx.shape[0]
     gram_matrix = tx.T @ tx
     w = np.linalg.solve(gram_matrix, tx.T @ y)
 
     error = y - (tx @ w)
-    loss = 1/(2*N)*error.dot(error)
+    loss = 1/(2*n)*error.dot(error)
 
     return w, loss
 
