@@ -1,5 +1,7 @@
 import numpy as np
 
+from projects.project1.code.batch_iter import batch_iter
+
 
 def least_squares(y, tx):
     N = tx.shape[0]
@@ -43,7 +45,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
 
     for i in range(0, max_iters):
-        batch_iterator = batch_iter(y, tx, 1)
+        batch_iterator = batch_iter.batch_iter(y, tx, 1)
         for batch_y_x in batch_iterator:
             grad = - 1 * (np.transpose(batch_y_x[1]) @ (
                         batch_y_x[0] - (batch_y_x[1] @ initial_w)))  # gradient of the loss function

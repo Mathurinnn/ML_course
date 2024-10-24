@@ -1,4 +1,7 @@
 import numpy as np
+from compute_gradient import *
+from compute_loss import *
+from batch_iter import *
 
 def least_squares(y, tx):
 
@@ -13,17 +16,13 @@ def least_squares(y, tx):
 
 #Linear regression using gradient descent
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
-   
-    n = np.shape(y)[0]#size of the dataset
+    w = initial_w
+    for n_iter in range(max_iters):
+        grad = compute_gradient(y, tx, w)
+        w = w - gamma * grad
 
-    def mean_squared_error_gd_recursive(y, tx, w, max_iters, gamma):
-        if(max_iters == 0):
-            return (initial_w, (1/(2*n)) * np.sum(np.square(y - tx @ w)))
-        else:
-            grad = -(1/n) * (np.transpose(tx) @ (y - tx @ w))#gradient of the loss function
-            return mean_squared_error_gd(y, tx, w - gamma * grad, max_iters - 1, gamma)
-            
-    return mean_squared_error_gd_recursive(y, tx, initial_w, max_iters, gamma)
+    loss = compute_loss(y, tx, w)
+    return loss, w
 
 def ridge_regression(y,tx,lambda_):
 
@@ -38,13 +37,11 @@ def ridge_regression(y,tx,lambda_):
     return w, loss
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
+    w = initial_w
 
-    n = np.shape(y)[0]
-    batch_iterator = batch_iter(y, tx, 1)
+    for n_iter in range(max_iters):
+        batch = next(batch_iter(y, tx, 1))
+        w = w - gamma * compute_gradient(batch[0], batch[1], w)
 
-    for i in range(max_iters):
-        batch_y_x = next(batch_iterator)
-        grad = - 1 * (np.transpose(batch_y_x[1]) @ (batch_y_x[0] - (batch_y_x[1] @ initial_w)))  # gradient of the loss function
-        initial_w = initial_w - gamma * grad
-
-    return initial_w, (1 / (2 * n)) * np.sum(np.square(y - tx @ initial_w))
+    loss = compute_loss(y, tx, w)
+    return loss, w
