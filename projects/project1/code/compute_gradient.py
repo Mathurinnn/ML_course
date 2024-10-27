@@ -20,4 +20,12 @@ def compute_gradient(y, tx, w):
 
     return grad
 
+def sigmoid(t):
+    """apply sigmoid function on t."""
+    return 1. / (1. + np.exp(-t))
+
+def compute_gradient_logistic(y, tx, w):
+    """Compute the gradient of the loss function for logistic regression."""
+    return tx.T @ (sigmoid(tx @ w) - y)
+
 
