@@ -24,7 +24,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         w = w - gamma * grad
 
     loss = compute_loss(y, tx, w)
-    return loss, w
+    return w, loss
 
 def ridge_regression(y,tx,lambda_):
 
