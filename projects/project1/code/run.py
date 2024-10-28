@@ -1,5 +1,3 @@
-import runpy as np
-
 import numpy as np
 
 from projects.project1.helpers import load_csv_data
@@ -10,11 +8,7 @@ columnnsToRemove = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,
 x_train = np.delete(x_train, columnnsToRemove, axis=1)
 x_test = np.delete(x_test, columnnsToRemove, axis=1)
 
-print("premier ok")
-
 #on remplace les nan par des 0
 x_train = np.nan_to_num(x_train)
 x_test = np.nan_to_num(x_test)
 y_train = np.nan_to_num(y_train)
-
-print("deuxieme ok")
