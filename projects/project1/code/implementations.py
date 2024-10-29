@@ -3,14 +3,8 @@ from compute_gradient import *
 from compute_loss import *
 from batch_iter import *
 
-
 def least_squares(y, tx):
-    """
-    Least squares using normal equations
-    Returns the optimal weights and the loss
-    y: labels
-    tx: features
-    """
+
     n = tx.shape[0]
     gram_matrix = tx.T @ tx
     w = np.linalg.solve(gram_matrix, tx.T @ y)
@@ -41,7 +35,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
 
 def ridge_regression(y,tx,lambda_):
-    """ 
+    """
     Ridge regression using normal equations
     Returns the optimal weights and the loss
     y: labels
@@ -71,11 +65,14 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if th
     gamma: step size
     """
     w = initial_w
+    N = tx.shape[0]
     for n_iter in range(max_iters):
         grad = compute_gradient_logistic(y, tx, w)
         w = w - gamma * grad
         # should there be a loss computation here?
-    return w
+    error = y - (tx @ w)
+    loss = 1 / (2 * N) * error.dot(error)
+    return w, loss
 
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
