@@ -89,15 +89,15 @@ def general_cross_validation(y, x, k_indices, k, function, args):
 
     x_test = np.zeros((k_indices.shape[1], x_train.shape[1]))
     y_test = np.zeros(x_test.shape[0])
-    x_train = np.delete(x_train, k_indices[k])
-    y_train = np.delete(y_train, k_indices[k])
+    x_train = np.delete(x_train, k_indices[k], 0)
+    y_train = np.delete(y_train, k_indices[k], 0)
 
     j = 0
     for i in k_indices[k]:
         x_test[j] = x[i]
         y_test[j] = y[i]
         j += 1
-    w = np.zeros(y_train.shape[0])
+    w = np.zeros(x.shape[1])
     args.insert(0, w)
     args.insert(0, x_train)
     args.insert(0, y_train)
