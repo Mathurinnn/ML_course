@@ -1,8 +1,6 @@
 import numpy as np
 from implementations import *
 from build_poly import *
-from labs.ex02.template.costs import compute_loss
-
 
 def cross_validation(y, x, k_indices, k, lambda_, degree):
     """return the loss of ridge regression for a fold corresponding to k_indices

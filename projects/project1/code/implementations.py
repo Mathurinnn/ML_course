@@ -3,8 +3,14 @@ from compute_gradient import *
 from compute_loss import *
 from batch_iter import *
 
-def least_squares(y, tx):
 
+def least_squares(y, tx):
+    """
+    Least squares using normal equations
+    Returns the optimal weights and the loss
+    y: labels
+    tx: features
+    """
     n = tx.shape[0]
     gram_matrix = tx.T @ tx
     w = np.linalg.solve(gram_matrix, tx.T @ y)
@@ -14,8 +20,17 @@ def least_squares(y, tx):
 
     return w, loss
 
-#Linear regression using gradient descent
+
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
+    """
+    Mean squared error using gradient descent
+    Returns the optimal weights and the loss
+    y: labels
+    tx: features
+    initial_w: initial weights
+    max_iters: number of iterations
+    gamma: step size
+    """
     w = initial_w
     for n_iter in range(max_iters):
         grad = compute_gradient(y, tx, w)
@@ -24,7 +39,15 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     loss = compute_loss(y, tx, w)
     return w, loss
 
+
 def ridge_regression(y,tx,lambda_):
+    """ 
+    Ridge regression using normal equations
+    Returns the optimal weights and the loss
+    y: labels
+    tx: features
+    lambda_: regularization parameter
+    """
 
     N = tx.shape[0]
     D = tx.shape[1]
@@ -36,7 +59,17 @@ def ridge_regression(y,tx,lambda_):
 
     return w, loss
 
+
 def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if this is correct
+    """
+    Logistic regression using gradient descent
+    Returns the optimal weights and the loss
+    y: labels
+    tx: features
+    initial_w: initial weights
+    max_iters: number of iterations
+    gamma: step size
+    """
     w = initial_w
     for n_iter in range(max_iters):
         grad = compute_gradient_logistic(y, tx, w)
@@ -44,7 +77,17 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if th
         # should there be a loss computation here?
     return w
 
+
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
+    """
+    Mean squared error using stochastic gradient descent
+    Returns the optimal weights and the loss
+    y: labels
+    tx: features
+    initial_w: initial weights
+    max_iters: number of iterations
+    gamma: step size
+    """
     w = initial_w
 
     for n_iter in range(max_iters):
