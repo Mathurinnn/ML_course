@@ -1,5 +1,7 @@
 import numpy as np
 
+from projects.project1.code.cross_validation import build_k_indices, cross_validation, general_cross_validation
+from projects.project1.code.implementations import logistic_regression
 from projects.project1.helpers import load_csv_data
 
 x_train, x_test, y_train, train_ids, test_ids = load_csv_data("/Users/deschryver/PycharmProjects/ML_course/projects/project1/data/dataset")
@@ -12,3 +14,21 @@ x_test = np.delete(x_test, columnnsToRemove, axis=1)
 x_train = np.nan_to_num(x_train)
 x_test = np.nan_to_num(x_test)
 y_train = np.nan_to_num(y_train)
+
+#prepare la cross validation
+k = 5
+seed = 3024920
+k_indices = build_k_indices(y_train, k, seed)
+
+max_iter = 1000
+gamma = 0.1
+#cross validation
+losses_tr = []
+losses_te = []
+for fold in range(k):
+    ls_tr, ls_te = general_cross_validation(y_train, x_train,k_indices, fold, logistic_regression,[max_iter, gamma])
+    losses_tr.append(ls_tr)
+    losses_te.append(ls_te)
+
+print(losses_tr)
+print(losses_te)
