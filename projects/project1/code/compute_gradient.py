@@ -1,7 +1,5 @@
 import numpy as np
 
-from labs.ex02.template.costs import compute_loss
-
 
 def compute_gradient(y, tx, w):
     """Computes the gradient at w.
