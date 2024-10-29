@@ -21,7 +21,7 @@ def cross_validation(y, x, k_indices, k, lambda_, degree):
 
     # ***************************************************
     # INSERT YOUR CODE HERE
-    # get k'th subgroup in test, others in train: TODO
+    # get k'th subgroup in test, others in train:
     x_train = np.copy(x)
     y_train = np.copy(y)
 
@@ -66,3 +66,45 @@ def build_k_indices(y, k_fold, seed):
     indices = np.random.permutation(num_row)
     k_indices = [indices[k * interval : (k + 1) * interval] for k in range(k_fold)]
     return np.array(k_indices)
+
+
+def general_cross_validation(y, x, k_indices, k, function, args):
+    """return the loss of function for a fold corresponding to k_indices
+
+    Args:
+        y:          shape=(N,)
+        x:          shape=(N,)
+        k_indices:  2D array returned by build_k_indices()
+        k:          scalar, the k-th fold (N.B.: not to confused with k_fold which is the fold nums)
+        lambda_:    scalar, cf. ridge_regression()
+        function:     the tested function
+
+    Returns:
+        train and test root mean square errors rmse = sqrt(2 mse)
+    """
+
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # get k'th subgroup in test, others in train:
+    x_train = np.copy(x)
+    y_train = np.copy(y)
+
+    x_test = np.zeros((k_indices.shape[1], x_train.shape[1]))
+    y_test = np.zeros(x_test.shape[0])
+    x_train = np.delete(x_train, k_indices[k])
+    y_train = np.delete(y_train, k_indices[k])
+
+    j = 0
+    for i in k_indices[k]:
+        x_test[j] = x[i]
+        y_test[j] = y[i]
+        j += 1
+    w = np.zeros(y_train.shape[0])
+    args.insert(0, w)
+    args.insert(0, x_train)
+    args.insert(0, y_train)
+    w = function(*args)[0]
+    loss_tr = np.sqrt(2 * compute_loss(y_train, x_train, w))
+    loss_te = np.sqrt(2 * compute_loss(y_test, x_test, w))
+
+    return loss_tr, loss_te
