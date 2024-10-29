@@ -13,8 +13,7 @@ not_seve_or_nine = [0, 51, 60, 103, 107, 267, 268, 269, 270, 271, 272, 273, 274,
 
 number_of_columns = x_train.shape[1]
 number_of_lines = x_train.shape[0]
-print("number_of_columns : " + str(number_of_columns))
-print("number_of_lines : " + str(number_of_lines))
+
 
 for l in range(0, number_of_lines - 1):
     for r in range(0, number_of_columns - 1):
