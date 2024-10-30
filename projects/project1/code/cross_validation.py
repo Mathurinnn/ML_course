@@ -1,4 +1,6 @@
 import numpy as np
+from dask.array.random import logistic
+
 from implementations import *
 from build_poly import *
 
@@ -102,7 +104,32 @@ def general_cross_validation(y, x, k_indices, k, function, args):
     args.insert(0, x_train)
     args.insert(0, y_train)
     w = function(*args)[0]
-    loss_tr = np.sqrt(2 * compute_loss(y_train, x_train, w))
-    loss_te = np.sqrt(2 * compute_loss(y_test, x_test, w))
+    print("************************************w*************************")
+    print(w)
+    loss_tr = compute_loss(y_train, x_train, w)
+    loss_te = compute_loss(y_test, x_test, w)
 
     return loss_tr, loss_te
+
+
+def logistic_cross_validation(y, x, k_indices, k, max_iter, gamma):
+
+    x_train = np.copy(x)
+    y_train = np.copy(y)
+
+    x_test = np.zeros((k_indices.shape[1], x_train.shape[1]))
+    y_test = np.zeros(x_test.shape[0])
+    x_train = np.delete(x_train, k_indices[k], 0)
+    y_train = np.delete(y_train, k_indices[k], 0)
+
+    j = 0
+    for i in k_indices[k]:
+        x_test[j] = x[i]
+        y_test[j] = y[i]
+        j += 1
+    w = np.zeros(x.shape[1])
+
+    w, loss = logistic_regression(y_train, x_train, w,max_iter,gamma)
+    loss_te = compute_logistic_loss(y_test, x_test, w)
+
+    return loss, loss_te
