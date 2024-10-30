@@ -99,8 +99,8 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
 
     for n_iter in range(max_iters):
-        batch = next(batch_iter(y, tx, 1))
-        w = w - gamma * (compute_gradient(batch[0], batch[1], w) + lambda_ *np.sum(w))
+        grad = compute_gradient_logistic(y, tx, w) + lambda_ * np.sum(w)
+        w = w - gamma * grad
 
-    loss = compute_loss(y, tx, w)
+    loss = compute_logistic_loss(y, tx, w)
     return w, loss
