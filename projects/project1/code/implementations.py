@@ -92,3 +92,10 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
     loss = compute_loss(y, tx, w)
     return w, loss
+
+
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+    w, loss = logistic_regression(y, tx, initial_w, max_iters, gamma)
+    loss += (lambda_ / 2) * np.sum(w**2)
+    return w, loss
+
