@@ -13,8 +13,6 @@ x_train = clean_data(x_train)
 x_test = clean_data(x_test)
 
 #on remplace les nan par des 0
-x_train = np.nan_to_num(x_train)
-x_test = np.nan_to_num(x_test)
 y_train = np.nan_to_num(y_train)
 
 """
