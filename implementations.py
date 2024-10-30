@@ -56,7 +56,7 @@ def ridge_regression(y,tx,lambda_):
     return w, loss
 
 
-def logistic_regression(y, tx, initial_w, max_iters, gamma):
+def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if this is correct
     """
     Logistic regression using gradient descent
     Returns the optimal weights and the loss
