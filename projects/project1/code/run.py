@@ -12,7 +12,6 @@ x_train, x_test, y_train, train_ids, test_ids = load_csv_data("/Users/deschryver
 x_train = clean_data(x_train)
 x_test = clean_data(x_test)
 
-#on remplace les nan par des 0
 y_train = np.nan_to_num(y_train)
 
 """
