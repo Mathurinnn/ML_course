@@ -70,7 +70,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if th
         grad = compute_gradient_logistic(y, tx, w)
         w = w - gamma * grad
         # should there be a loss computation here?
-    loss = compute_loss(y, tx, w)
+    loss = compute_logistic_loss(y, tx, w)
     return w, loss
 
 
