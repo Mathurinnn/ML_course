@@ -52,5 +52,6 @@ def clean_data(x_train):
                                     x_train[l, c] = 0
 
     x_train = np.delete(x_train, columnnsToRemove, axis=1)
+    x_train = np.nan_to_num(x_train)
 
     return x_train
