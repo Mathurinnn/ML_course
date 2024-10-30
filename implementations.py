@@ -2,7 +2,7 @@ import numpy as np
 
 from projects.project1.code.batch_iter import batch_iter
 from projects.project1.code.compute_gradient import compute_gradient, compute_gradient_logistic
-from projects.project1.code.compute_loss import compute_loss
+from projects.project1.code.compute_loss import compute_loss, compute_logistic_loss
 
 
 def least_squares(y, tx):
@@ -72,8 +72,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma): # TODO: check if th
         grad = compute_gradient_logistic(y, tx, w)
         w = w - gamma * grad
         # should there be a loss computation here?
-    error = y - (tx @ w)
-    loss = 1 / (2 * N) * error.dot(error)
+    loss = compute_logistic_loss(y, tx, w)
     return w, loss
 
 
@@ -95,3 +94,4 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
     loss = compute_loss(y, tx, w)
     return w, loss
+
