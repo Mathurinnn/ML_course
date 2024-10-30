@@ -19,10 +19,15 @@ def compute_loss(y, tx, w):
     return (1/(2*n)) * (np.transpose(e) @ e)
 
 def compute_logistic_loss(y, tx, w):
+    n = np.shape(y)[0]
+    g = tx @ w
+    loss = (1/n) * -(y@g) + (1/n) * np.sum(np.vectorize(lambda x : math.log(1 + math.exp(x)))(g), 0)
+    return loss
+
+def compute_loss_logistic_two(y, tx, w):
     def log_function(gi):
         return math.log(1 + math.exp(gi))
 
     n = np.shape(y)[0]
-    g = tx @ w
-    loss = (1/n) * -(y@g) + (1/n) * np.sum(np.vectorize(log_function)(g), 0)
-    return loss
+
+    return ((1/n) * np.sum(np.vectorize(log_function)(-y @ (tx @ w))))
