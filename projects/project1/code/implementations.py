@@ -96,9 +96,8 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
-    n = y.shape[0]
     for n_iter in range(max_iters):
-        grad = compute_gradient_logistic(y, tx, w) + lambda_ * np.sum(w)
+        grad = compute_gradient_logistic(y, tx, w) + 2 * lambda_ * w
         w = w - gamma * grad
 
     loss = compute_logistic_loss(y, tx, w)
