@@ -54,4 +54,10 @@ def clean_data(x_train):
     x_train = np.delete(x_train, columnnsToRemove, axis=1)
     x_train = np.nan_to_num(x_train)
 
+    min_colums = np.min(x_train,axis=1)
+    max_colums = np.max(x_train,axis=1)
+
+    for i in range(x_train.shape[1]):
+        x_train[:,i] = np.vectorize(lambda x : (x - min_colums[i]) / (max_colums[i] - min_colums[i]))(x_train[:,i])
+
     return x_train
