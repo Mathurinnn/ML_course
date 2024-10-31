@@ -18,14 +18,15 @@ def compute_gradient(y, tx, w):
 
     return grad
 
+
 def sigmoid(t):
     """apply sigmoid function on t."""
-    return 1. / (1. + np.exp(-t))
+    return 1 / (1 + np.exp(-t))
+
 
 def compute_gradient_logistic(y, tx, w):
     """Compute the gradient of the loss function for logistic regression."""
     n = np.shape(y)[0]
-    e = y - sigmoid(tx @ w) # i feel like there should be an offset w0 here but then it does not fit the function definition
-    return -(1/n) * (np.transpose(tx) @ e)
-
-
+    e = sigmoid(tx @ w) - y  # i feel like there should be an offset w0 here but then it does not fit the function definition
+    grad = (1 / n) * tx.T @ e
+    return grad

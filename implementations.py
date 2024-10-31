@@ -6,13 +6,12 @@ from projects.project1.code.compute_loss import compute_loss, compute_logistic_l
 
 
 def least_squares(y, tx):
-
     n = tx.shape[0]
     gram_matrix = tx.T @ tx
     w = np.linalg.solve(gram_matrix, tx.T @ y)
 
     error = y - (tx @ w)
-    loss = 1/(2*n)*error.dot(error)
+    loss = 1 / (2 * n) * error.dot(error)
 
     return w, loss
 
@@ -36,7 +35,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
-def ridge_regression(y,tx,lambda_):
+def ridge_regression(y, tx, lambda_):
     """
     Ridge regression using normal equations
     Returns the optimal weights and the loss
@@ -47,7 +46,7 @@ def ridge_regression(y,tx,lambda_):
 
     N = tx.shape[0]
     D = tx.shape[1]
-    gram_matrix = (tx.T @ tx + lambda_*2*N*np.identity(D))
+    gram_matrix = (tx.T @ tx + lambda_ * 2 * N * np.identity(D))
     w = np.linalg.solve(gram_matrix, tx.T @ y)
 
     error = y - (tx @ w)
@@ -95,11 +94,11 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     loss = compute_loss(y, tx, w)
     return w, loss
 
+
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
-    n = y.shape[0]
     for n_iter in range(max_iters):
-        grad = compute_gradient_logistic(y, tx, w) + lambda_ * np.sum(w)
+        grad = compute_gradient_logistic(y, tx, w) + lambda_ * 2*w
         w = w - gamma * grad
 
     loss = compute_logistic_loss(y, tx, w)
