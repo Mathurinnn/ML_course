@@ -27,6 +27,6 @@ def sigmoid(t):
 def compute_gradient_logistic(y, tx, w):
     """Compute the gradient of the loss function for logistic regression."""
     n = np.shape(y)[0]
-    e = sigmoid(tx @ w) - y  # i feel like there should be an offset w0 here but then it does not fit the function definition
+    e = sigmoid(tx @ w) - y
     grad = (1 / n) * tx.T @ e
     return grad

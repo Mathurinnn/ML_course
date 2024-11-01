@@ -91,6 +91,7 @@ def logistic_cross_validation(y, x, k_indices, k, max_iter, gamma):
     w = np.zeros(x.shape[1])
 
     w, loss = logistic_regression(y_train, x_train,w,max_iter, gamma)
+    print(w)
 
     loss_te = compute_logistic_loss(y_test, x_test, w)
     r = x_test @ w
