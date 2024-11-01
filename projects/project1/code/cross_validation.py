@@ -129,8 +129,47 @@ def logistic_cross_validation(y, x, k_indices, k, max_iter, gamma):
         j += 1
     w = np.zeros(x.shape[1])
 
-    w, loss = logistic_regression(y_train, x_train,w,max_iter,gamma)
+    w, loss = reg_logistic_regression(y_train, x_train,w,max_iter,gamma)
 
     loss_te = compute_logistic_loss(y_test, x_test, w)
 
     return loss, loss_te
+
+def get_train_test(y, x, k_indices, k):
+
+    x_train = np.copy(x)
+    y_train = np.copy(y)
+
+    x_test = np.zeros((k_indices.shape[1], x_train.shape[1]))
+    y_test = np.zeros(x_test.shape[0])
+    x_train = np.delete(x_train, k_indices[k], 0)
+    y_train = np.delete(y_train, k_indices[k], 0)
+    print("la aussi")
+    j = 0
+    for i in k_indices[k]:
+        x_test[j] = x[i]
+        y_test[j] = y[i]
+        j += 1
+
+    return x_train, y_train, x_test, y_test
+
+def compute_f1_score(y_test, predictions):
+    true_positive = 0
+    true_negative = 0
+    false_positive = 0
+    false_negative = 0
+
+    for i in range(len(y_test)):
+        if y_test[i] == predictions[i] and predictions[i] == 1:
+            true_positive += 1
+        if y_test[i] == predictions[i] and predictions[i] == 0:
+            true_negative += 1
+        if y_test[i] != predictions[i] and predictions[i] == 0:
+            false_negative += 1
+        if y_test[i] != predictions[i] and predictions[i] == 1:
+            false_positive += 1
+
+    precision = true_positive / (true_positive + false_positive)
+    recall = true_positive / (true_positive + false_negative)
+
+    return 2*precision*recall/(precision+recall)
